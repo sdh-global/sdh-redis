@@ -1,11 +1,10 @@
 import redis
-from datetime import datetime
-from django.utils import timezone
+from datetime import datetime, timezone
 
 from .pool import redis_pool_manager
 
 
-class RedisConn(object):
+class RedisConn:
     def __init__(self, db_alias='default'):
         self.conn = None
         self.db_alias = db_alias
@@ -21,17 +20,18 @@ class RedisConn(object):
     @staticmethod
     def stamp2str(stamp):
         """Convert aware stamp into UTC and convert it to format
-        %Y-%m-%d %H:%M:%S.%f
+        %Y-%m-%d %H:%M:%S.%fZ
         Using together with Redis storage and other related
         """
-        return stamp.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S.%f')
+        return stamp.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S.%fZ')
 
     @staticmethod
     def str2stamp(stamp_str):
         """ Convert string into aware time stamp,
         assume that string in UTC time zone
         """
-        formats = ('%Y-%m-%d %H:%M:%S.%f',
+        formats = ('%Y-%m-%d %H:%M:%S.%fZ',
+                   '%Y-%m-%d %H:%M:%S.%f',
                    '%Y-%m-%d %H:%M:%S',
                    '%Y-%m-%d %H:%M')
         stamp = None

@@ -33,4 +33,3 @@ from REDISDB parameters:
    with RedisConn('db2') as redis:
        redis.set('test', 'value')
 
-

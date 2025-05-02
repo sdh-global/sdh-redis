@@ -2,7 +2,7 @@ import redis
 from django.conf import settings as django_settings
 
 
-class RedisPoolManager(object):
+class RedisPoolManager:
     pool_manager = redis.BlockingConnectionPool
 
     def __init__(self, settings):
